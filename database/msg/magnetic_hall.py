@@ -58,7 +58,7 @@ class MagneticHallSymbol:
     def _parse(self, magnetic: bool = True):
         tokens = self.hall_symbol.split(" ")
 
-        assert len(tokens) >= 1
+        assert tokens
         self._parse_L(tokens[0])
 
         self._Ns = []

@@ -274,7 +274,7 @@ class HallSymbol:
 
         N, R, A = self._rotation(N, i, precededN)
 
-        if len(N) > 0:
+        if N:
             T = self._translation(N)
         else:
             T = None
@@ -312,7 +312,7 @@ class HallSymbol:
         if A is None:
             R = N[0]
             N = N[1:]
-            if len(N) > 0 and i == 0:
+            if N and i == 0:
                 N, A = self._principal_axis(N)
             else:
                 A = 'z'
@@ -327,9 +327,7 @@ class HallSymbol:
         return N, 'z'
 
     def _translation(self, N):
-        T = []
-        for i in range(len(N)):
-            T.append(N[i])
+        T = N.copy()
         return T
 
     def _change_of_basis_symbol(self, V):

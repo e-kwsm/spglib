@@ -112,7 +112,7 @@ class Transformation:
         """
         Transformation to ITA standard setting
         """
-        if len(choice) >= 1 and (choice[0] in ["1", "2"]):
+        if choice and (choice[0] in ["1", "2"]):
             origin_choice = choice[0]
             axes_choice = choice[1:]
         else:

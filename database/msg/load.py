@@ -10,7 +10,7 @@ def get_msg_numbers():
         reader = csv.reader(f, delimiter=',')
         next(reader)  # skip header
         for row in reader:
-            if len(row) == 0:
+            if not row:
                 break
 
             litvin_number, bns_number, og_number, uni_number = row
