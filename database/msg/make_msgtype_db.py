@@ -9,7 +9,7 @@ def get_type_of_msg(hall_symbol):
         return 1  # type-I
     if " 1'" in hall_symbol:
         return 2  # type-II
-    if len(re.findall(r" 1[a-z]+'", hall_symbol)) > 0:
+    if re.findall(r" 1[a-z]+'", hall_symbol):
         return 4  # type-IV
     return 3  # type-III
 

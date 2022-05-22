@@ -2,6 +2,7 @@
 
 import sys
 import numpy as np
+from itertools import product
 from sage.all import *
 
 def get_VSpU( M ):
@@ -21,55 +22,57 @@ def get_VSpU_sets(g1s, g2s):
     VSpU_sets = []
     generator_sets = []
 
-    for g3 in ( False, True ): # for inversion
-        for g1 in g1s:
-            for g2 in g2s:
-                if g2 is not False:
-                    if np.equal(g1, g2).all():
-                        continue
-                    if np.equal(g1, np.dot(inv, g2)).all():
-                        continue
-                    genes = [g1, g2]
+    for g3, g1, g2 in product(
+        (False, True),  # for inversion
+        g1s,
+        g2s
+    ):
+        if g2 is not False:
+            if np.equal(g1, g2).all():
+                continue
+            if np.equal(g1, np.dot(inv, g2)).all():
+                continue
+            genes = [g1, g2]
+        else:
+            genes = [g1,]
+
+        if g3:
+            genes_new = []
+            for g in genes:
+                if np.linalg.det(g) < 0:
+                    genes_new.append(np.dot(inv, g))
                 else:
-                    genes = [g1,]
+                    genes_new.append(g)
+            genes_new.append(inv)
 
-                if g3:
-                    genes_new = []
-                    for g in genes:
-                        if np.linalg.det(g) < 0:
-                            genes_new.append(np.dot(inv, g))
-                        else:
-                            genes_new.append(g)
-                    genes_new.append(inv)
+            if np.linalg.det(g1) < 0:
+                is_found = False
+                for g1_comp in g1s:
+                    if np.equal(genes_new[0], g1_comp).all():
+                        is_found = True
+                        break
+                if is_found:
+                    continue
 
-                    if np.linalg.det(g1) < 0:
-                        is_found = False
-                        for g1_comp in g1s:
-                            if np.equal(genes_new[0], g1_comp).all():
-                                is_found = True
-                                break
-                        if is_found:
-                            continue
+            if g2 is not False:
+                if np.linalg.det(g2) < 0:
+                    is_found = False
+                    for g2_comp in g2s:
+                        if np.equal(genes_new[1], g2_comp).all():
+                            is_found = True
+                            break
+                    if is_found:
+                        continue
 
-                    if g2 is not False:
-                        if np.linalg.det(g2) < 0:
-                            is_found = False
-                            for g2_comp in g2s:
-                                if np.equal(genes_new[1], g2_comp).all():
-                                    is_found = True
-                                    break
-                            if is_found:
-                                continue
+        else:
+            genes_new = genes
 
-                else:
-                    genes_new = genes
-
-                M = Matrix(3, 3, genes_new[0])
-                if len(genes_new) > 1:
-                    for g in genes_new[1:]:
-                        M = M.stack(Matrix(3, 3, g))
-                VSpU_sets.append(get_VSpU(M))
-                generator_sets.append( M )
+        M = Matrix(3, 3, genes_new[0])
+        if len(genes_new) > 1:
+            for g in genes_new[1:]:
+                M = M.stack(Matrix(3, 3, g))
+        VSpU_sets.append(get_VSpU(M))
+        generator_sets.append( M )
     return VSpU_sets, generator_sets
 
 def get_rotation_primitive( g1s, g2s, T ):
