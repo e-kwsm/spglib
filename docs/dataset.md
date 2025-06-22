@@ -212,7 +212,7 @@ $$ (rotation_in_standardization)
 
 More precisely, this rotation matrix is an orthonormal matrix. Since $(
 \mathbf{a}_\mathrm{s} \; \mathbf{b}_\mathrm{s} \; \mathbf{c}_\mathrm{s} )$ can
-be distored, to make $\boldsymbol{R}$ orthonormal, it is calculated as
+be distorted, to make $\boldsymbol{R}$ orthonormal, it is calculated as
 follows. Make cubes of $( \mathbf{a}_\mathrm{s} \; \mathbf{b}_\mathrm{s}
 \; \mathbf{c}_\mathrm{s} )$ and $( \bar{\mathbf{a}}_\mathrm{s} \;
 \bar{\mathbf{b}}_\mathrm{s} \; \bar{\mathbf{c}}_\mathrm{s} )$ by
