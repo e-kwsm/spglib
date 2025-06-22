@@ -32,7 +32,7 @@ module C_interface_module
     ! Defining off_t is difficult, because it may depend on "LARGEFILE" selection.
     !  integer, parameter :: C_off_t = ??
 
-    ! C string terminator alais using the 3-letter ASCII name.
+    ! C string terminator alias using the 3-letter ASCII name.
     ! The C_ prefix is not used because it is just an ASCII character.
     character(len=1, kind=C_char), parameter :: NUL = C_NULL_char
 
