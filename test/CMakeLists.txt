@@ -252,19 +252,19 @@ function(Spglib_add_test test)
     set(extra_args)
     if (Spglib_IS_TOP_LEVEL)
         list(APPEND extra_args
-                -DFETCHCONTENT_TRY_FIND_PACKAGE_MODE=ALWAYS
+                -DFETCHCONTENT_TRY_FIND_PACKAGE_MODE:STRING=ALWAYS
                 # Generated Config file point to binary targets until it is installed
-                -DSpglib_ROOT=${Spglib_BINARY_DIR}
-                -DFETCHCONTENT_SOURCE_DIR_SPGLIB=${Spglib_SOURCE_DIR}
+                -DSpglib_ROOT:PATH=${Spglib_BINARY_DIR}
+                -DFETCHCONTENT_SOURCE_DIR_SPGLIB:PATH=${Spglib_SOURCE_DIR}
         )
     endif ()
     list(APPEND extra_args
-            -DSPGLIB_WITH_Fortran=${SPGLIB_WITH_Fortran}
+            -DSPGLIB_WITH_Fortran:BOOL=${SPGLIB_WITH_Fortran}
     )
     set(compiler_args)
     foreach (lang IN ITEMS C CXX Fortran)
         if (DEFINED CMAKE_${lang}_COMPILER)
-            list(APPEND compiler_args -DCMAKE_${lang}_COMPILER=${CMAKE_${lang}_COMPILER})
+            list(APPEND compiler_args -DCMAKE_${lang}_COMPILER:FILEPATH=${CMAKE_${lang}_COMPILER})
         endif ()
     endforeach ()
 
