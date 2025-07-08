@@ -80,11 +80,11 @@ static int check_mesh_symmetry(int const mesh[3], int const is_shift[3],
 /*     ....      ]                                                  */
 /*                                                                  */
 /* Each value of 'map' corresponds to the index of grid_point.      */
-int kpt_get_irreducible_reciprocal_mesh(int grid_address[][3],
-                                        int ir_mapping_table[],
-                                        int const mesh[3],
-                                        int const is_shift[3],
-                                        MatINT const *rot_reciprocal) {
+int kpt_get_irreducible_reciprocal_mesh(int grid_address[restrict][3],
+                                        int ir_mapping_table[restrict],
+                                        int const mesh[restrict 3],
+                                        int const is_shift[restrict 3],
+                                        MatINT const *restrict rot_reciprocal) {
     int num_ir;
     size_t i;
     size_t *dense_ir_mapping_table;
@@ -108,11 +108,10 @@ int kpt_get_irreducible_reciprocal_mesh(int grid_address[][3],
     return num_ir;
 }
 
-size_t kpt_get_dense_irreducible_reciprocal_mesh(int grid_address[][3],
-                                                 size_t ir_mapping_table[],
-                                                 int const mesh[3],
-                                                 int const is_shift[3],
-                                                 MatINT const *rot_reciprocal) {
+size_t kpt_get_dense_irreducible_reciprocal_mesh(
+    int grid_address[restrict][3], size_t ir_mapping_table[restrict],
+    int const mesh[restrict 3], int const is_shift[restrict 3],
+    MatINT const *restrict rot_reciprocal) {
     size_t num_ir;
 
     num_ir = get_dense_ir_reciprocal_mesh(grid_address, ir_mapping_table, mesh,
@@ -122,8 +121,9 @@ size_t kpt_get_dense_irreducible_reciprocal_mesh(int grid_address[][3],
 }
 
 int kpt_get_stabilized_reciprocal_mesh(
-    int grid_address[][3], int ir_mapping_table[], int const mesh[3],
-    int const is_shift[3], int const is_time_reversal, MatINT const *rotations,
+    int grid_address[restrict][3], int ir_mapping_table[restrict],
+    int const mesh[restrict 3], int const is_shift[restrict 3],
+    int const is_time_reversal, MatINT const *restrict rotations,
     size_t const num_q, double const qpoints[][3]) {
     int num_ir;
     size_t i;
@@ -150,8 +150,9 @@ int kpt_get_stabilized_reciprocal_mesh(
 }
 
 size_t kpt_get_dense_stabilized_reciprocal_mesh(
-    int grid_address[][3], size_t ir_mapping_table[], int const mesh[3],
-    int const is_shift[3], int const is_time_reversal, MatINT const *rotations,
+    int grid_address[restrict][3], size_t ir_mapping_table[restrict],
+    int const mesh[restrict 3], int const is_shift[restrict 3],
+    int const is_time_reversal, MatINT const *restrict rotations,
     size_t const num_q, double const qpoints[][3]) {
     size_t num_ir;
     MatINT *rot_reciprocal, *rot_reciprocal_q;
@@ -175,12 +176,10 @@ size_t kpt_get_dense_stabilized_reciprocal_mesh(
     return num_ir;
 }
 
-void kpt_get_dense_grid_points_by_rotations(size_t rot_grid_points[],
-                                            int const address_orig[3],
-                                            int const (*rot_reciprocal)[3][3],
-                                            int const num_rot,
-                                            int const mesh[3],
-                                            int const is_shift[3]) {
+void kpt_get_dense_grid_points_by_rotations(
+    size_t rot_grid_points[restrict], int const address_orig[restrict 3],
+    int const (*restrict rot_reciprocal)[3][3], int const num_rot,
+    int const mesh[restrict 3], int const is_shift[restrict 3]) {
     int i;
     int address_double_orig[3], address_double[3];
 
@@ -196,9 +195,10 @@ void kpt_get_dense_grid_points_by_rotations(size_t rot_grid_points[],
 }
 
 void kpt_get_dense_BZ_grid_points_by_rotations(
-    size_t rot_grid_points[], int const address_orig[3],
-    int const (*rot_reciprocal)[3][3], int const num_rot, int const mesh[3],
-    int const is_shift[3], size_t const bz_map[]) {
+    size_t rot_grid_points[restrict], int const address_orig[restrict 3],
+    int const (*restrict rot_reciprocal)[3][3], int const num_rot,
+    int const mesh[restrict 3], int const is_shift[restrict 3],
+    size_t const bz_map[restrict]) {
     int i;
     int address_double_orig[3], address_double[3], bzmesh[3];
 
@@ -214,10 +214,12 @@ void kpt_get_dense_BZ_grid_points_by_rotations(
     }
 }
 
-int kpt_relocate_BZ_grid_address(int bz_grid_address[][3], int bz_map[],
-                                 int const grid_address[][3], int const mesh[3],
+int kpt_relocate_BZ_grid_address(int bz_grid_address[restrict][3],
+                                 int bz_map[restrict],
+                                 int const grid_address[restrict][3],
+                                 int const mesh[restrict 3],
                                  double const rec_lattice[3][3],
-                                 int const is_shift[3]) {
+                                 int const is_shift[restrict 3]) {
     int num_bzgp;
     size_t i, num_bz_map;
     size_t *dense_bz_map;
@@ -248,9 +250,12 @@ int kpt_relocate_BZ_grid_address(int bz_grid_address[][3], int bz_map[],
     return num_bzgp;
 }
 
-size_t kpt_relocate_dense_BZ_grid_address(
-    int bz_grid_address[][3], size_t bz_map[], int const grid_address[][3],
-    int const mesh[3], double const rec_lattice[3][3], int const is_shift[3]) {
+size_t kpt_relocate_dense_BZ_grid_address(int bz_grid_address[restrict][3],
+                                          size_t bz_map[restrict],
+                                          int const grid_address[restrict][3],
+                                          int const mesh[restrict 3],
+                                          double const rec_lattice[3][3],
+                                          int const is_shift[restrict 3]) {
     return relocate_dense_BZ_grid_address(bz_grid_address, bz_map, grid_address,
                                           mesh, rec_lattice, is_shift);
 }
@@ -409,8 +414,8 @@ static MatINT *get_point_group_reciprocal_with_q(MatINT const *rot_reciprocal,
 
 static size_t get_dense_ir_reciprocal_mesh(int grid_address[][3],
                                            size_t ir_mapping_table[],
-                                           int const mesh[3],
-                                           int const is_shift[3],
+                                           int const mesh[restrict 3],
+                                           int const is_shift[restrict 3],
                                            MatINT const *rot_reciprocal) {
     if (check_mesh_symmetry(mesh, is_shift, rot_reciprocal)) {
         return get_dense_ir_reciprocal_mesh_normal(
@@ -422,8 +427,9 @@ static size_t get_dense_ir_reciprocal_mesh(int grid_address[][3],
 }
 
 static size_t get_dense_ir_reciprocal_mesh_normal(
-    int grid_address[][3], size_t ir_mapping_table[], int const mesh[3],
-    int const is_shift[3], MatINT const *rot_reciprocal) {
+    int grid_address[restrict][3], size_t ir_mapping_table[restrict],
+    int const mesh[restrict 3], int const is_shift[restrict 3],
+    MatINT const *restrict rot_reciprocal) {
     /* In the following loop, mesh is doubled. */
     /* Even and odd mesh numbers correspond to */
     /* is_shift[i] are 0 or 1, respectively. */
@@ -463,8 +469,9 @@ static size_t get_dense_ir_reciprocal_mesh_normal(
 }
 
 static size_t get_dense_ir_reciprocal_mesh_distortion(
-    int grid_address[][3], size_t ir_mapping_table[], int const mesh[3],
-    int const is_shift[3], MatINT const *rot_reciprocal) {
+    int grid_address[restrict][3], size_t ir_mapping_table[restrict],
+    int const mesh[restrict 3], int const is_shift[restrict 3],
+    MatINT const *restrict rot_reciprocal) {
     size_t i, grid_point_rot;
     int j, k, indivisible;
     int address_double[3], address_double_rot[3];
@@ -530,7 +537,8 @@ static size_t get_dense_ir_reciprocal_mesh_distortion(
     return get_dense_num_ir(ir_mapping_table, mesh);
 }
 
-static size_t get_dense_num_ir(size_t ir_mapping_table[], int const mesh[3]) {
+static size_t get_dense_num_ir(size_t ir_mapping_table[restrict],
+                               int const mesh[restrict 3]) {
     size_t i, num_ir;
 
     num_ir = 0;
@@ -552,8 +560,9 @@ static size_t get_dense_num_ir(size_t ir_mapping_table[], int const mesh[3]) {
 }
 
 static size_t relocate_dense_BZ_grid_address(
-    int bz_grid_address[][3], size_t bz_map[], int const grid_address[][3],
-    int const mesh[3], double const rec_lattice[3][3], int const is_shift[3]) {
+    int bz_grid_address[restrict][3], size_t bz_map[restrict],
+    int const grid_address[restrict][3], int const mesh[restrict 3],
+    double const rec_lattice[3][3], int const is_shift[restrict 3]) {
     double tolerance, min_distance;
     double q_vector[3], distance[KPT_NUM_BZ_SEARCH_SPACE];
     int bzmesh[3], bz_address_double[3];
@@ -647,7 +656,8 @@ static double get_tolerance_for_BZ_reduction(double const rec_lattice[3][3],
     return tolerance;
 }
 
-static int check_mesh_symmetry(int const mesh[3], int const is_shift[3],
+static int check_mesh_symmetry(int const mesh[restrict 3],
+                               int const is_shift[restrict 3],
                                MatINT const *rot_reciprocal) {
     int i, j, k, sum;
     int eq[3];
