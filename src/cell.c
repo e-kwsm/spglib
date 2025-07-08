@@ -111,8 +111,8 @@ void cel_free_cell(Cell *cell) {
     }
 }
 
-void cel_set_cell(Cell *cell, double const lattice[3][3],
-                  double const position[][3], int const types[]) {
+void cel_set_cell(Cell *cell, double const lattice[restrict 3][3],
+                  double const position[restrict][3], int const types[]) {
     int i, j;
     mat_copy_matrix_d3(cell->lattice, lattice);
     for (i = 0; i < cell->size; i++) {
@@ -124,8 +124,8 @@ void cel_set_cell(Cell *cell, double const lattice[3][3],
 }
 
 /* aperiodic_axis = -1 for none; = 0 1 2 for a b c */
-void cel_set_layer_cell(Cell *cell, double const lattice[3][3],
-                        double const position[][3], int const types[],
+void cel_set_layer_cell(Cell *cell, double const lattice[restrict 3][3],
+                        double const position[restrict][3], int const types[],
                         int const aperiodic_axis) {
     int i, j;
     mat_copy_matrix_d3(cell->lattice, lattice);
@@ -143,9 +143,9 @@ void cel_set_layer_cell(Cell *cell, double const lattice[3][3],
     cell->aperiodic_axis = aperiodic_axis;
 }
 
-void cel_set_cell_with_tensors(Cell *cell, double const lattice[3][3],
-                               double const position[][3], int const types[],
-                               double const *tensors) {
+void cel_set_cell_with_tensors(Cell *cell, double const lattice[restrict 3][3],
+                               double const position[restrict][3],
+                               int const types[], double const *tensors) {
     int i, j;
 
     cel_set_cell(cell, lattice, position, types);
@@ -402,8 +402,8 @@ static void set_positions_and_tensors(Cell *trimmed_cell,
                                       VecDBL const *position,
                                       SiteTensorType const tensor_rank,
                                       double const *tensors,
-                                      int const *mapping_table,
-                                      int const *overlap_table) {
+                                      int const *restrict mapping_table,
+                                      int const *restrict overlap_table) {
     int i, j, k, l, multi, atom_idx;
 
     for (i = 0; i < trimmed_cell->size; i++) {
