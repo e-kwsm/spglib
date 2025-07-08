@@ -49,6 +49,7 @@ Cell *spa_transform_to_primitive(int *mapping_table, Cell const *cell,
 Cell *spa_transform_from_primitive(Cell const *primitive,
                                    Centering const centering,
                                    double const symprec);
-void spa_copy_spacegroup(Spacegroup *dst, Spacegroup const *src);
+void spa_copy_spacegroup(Spacegroup *restrict dst,
+                         Spacegroup const *restrict src);
 
 #endif
