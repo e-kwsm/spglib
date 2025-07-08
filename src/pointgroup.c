@@ -471,8 +471,8 @@ end:
 // @param[out] table counts of {-6, -4, -3, -2, 1, 1, 2, 3, 4, 6}-fold rotations
 // or roto-rotations
 // @param[in] pointsym
-static int get_pointgroup_class_table(int table[10],
-                                      PointSymmetry const *pointsym) {
+static int get_pointgroup_class_table(int table[restrict 10],
+                                      PointSymmetry const *restrict pointsym) {
     /* Look-up table */
     /* Operation   -6 -4 -3 -2 -1  1  2  3  4  6 */
     /* Trace     -  2 -1  0  1 -3  3 -1  0  1  2 */
@@ -567,7 +567,8 @@ static int get_rotation_type(int const rot[3][3]) {
 // @param[in] laue
 // @param[in] pointsym
 // @param[in] aperiodic_axis
-static int get_axes(int axes[3], Laue const laue, PointSymmetry const *pointsym,
+static int get_axes(int axes[restrict 3], Laue const laue,
+                    PointSymmetry const *restrict pointsym,
                     int const aperiodic_axis) {
     switch (laue) {
         case LAUE1:
@@ -616,7 +617,8 @@ static int get_axes(int axes[3], Laue const laue, PointSymmetry const *pointsym,
     return 1;
 }
 
-static int laue2m(int axes[3], PointSymmetry const *pointsym) {
+static int laue2m(int axes[restrict 3],
+                  PointSymmetry const *restrict pointsym) {
     int i, num_ortho_axis, norm, min_norm, is_found;
     int prop_rot[3][3];
     int ortho_axes[NUM_ROT_AXES];
@@ -693,7 +695,8 @@ err:
 
 // @note The two-fold axis is set to axis-a. Axes b and c forms the periodic
 // plane.
-static int layer_laue2m(int axes[3], PointSymmetry const *pointsym,
+static int layer_laue2m(int axes[restrict 3],
+                        PointSymmetry const *restrict pointsym,
                         int const aperiodic_axis) {
     int i, num_ortho_axis, norm, min_norm, is_found;
     int prop_rot[3][3];
@@ -800,7 +803,8 @@ err:
 }
 
 // For Laue classes 4/m, 4/mmm, -3, -3/m, 6/m, 6/mmm
-static int laue_one_axis(int axes[3], PointSymmetry const *pointsym,
+static int laue_one_axis(int axes[restrict 3],
+                         PointSymmetry const *restrict pointsym,
                          int const rot_order) {
     int i, j, num_ortho_axis, det, is_found, tmpval;
     int axis_vec[3], tmp_axes[3];
@@ -889,7 +893,7 @@ end:
 }
 
 // For Laue classes mmm, m-3, m-3m
-static int lauennn(int axes[3], PointSymmetry const *pointsym,
+static int lauennn(int axes[restrict 3], PointSymmetry const *restrict pointsym,
                    int const rot_order, int const aperiodic_axis) {
     int i, count, axis;
     int prop_rot[3][3];
@@ -955,7 +959,8 @@ end:
 // @param[in] proper_rot Proper rotation
 // @param[in] rot_order
 // @return Size of orthogonal axes
-static int get_orthogonal_axis(int ortho_axes[], int const proper_rot[3][3],
+static int get_orthogonal_axis(int ortho_axes[restrict],
+                               int const proper_rot[restrict 3][3],
                                int const rot_order) {
     int i, num_ortho_axis;
     int vec[3];
@@ -984,7 +989,8 @@ static int get_orthogonal_axis(int ortho_axes[], int const proper_rot[3][3],
 }
 
 // @brief If `rot` is improper, output `rot` with inversion.
-static void get_proper_rotation(int prop_rot[3][3], int const rot[3][3]) {
+static void get_proper_rotation(int prop_rot[restrict 3][3],
+                                int const rot[restrict 3][3]) {
     if (mat_get_determinant_i3(rot) == -1) {
         mat_multiply_matrix_i3(prop_rot, inversion, rot);
     } else {
