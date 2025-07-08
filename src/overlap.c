@@ -83,8 +83,8 @@ static int check_layer_total_overlap_for_sorted(
  * As an aside, yes, significant performance is lost
  * for large structures if these functions aren't inlined. */
 
-static OVL_INLINE double cartesian_norm(double const lat[3][3],
-                                        double const v[3]) {
+static OVL_INLINE double cartesian_norm(double const lat[restrict 3][3],
+                                        double const v[restrict 3]) {
     double temp[3];
     temp[0] = lat[0][0] * v[0] + lat[0][1] * v[1] + lat[0][2] * v[2];
     temp[1] = lat[1][0] * v[0] + lat[1][1] * v[1] + lat[1][2] * v[2];
@@ -382,8 +382,9 @@ static void perm_argsort_work_free(void *work) { free(work); }
 /* to have the same type. */
 /* */
 /* Returns 0 on failure. */
-static int perm_argsort(int *perm, int const *types, double const *values,
-                        void *provided_work, int const n) {
+static int perm_argsort(int *restrict perm, int const *restrict types,
+                        double const *restrict values,
+                        void *restrict provided_work, int const n) {
     int i;
     ValueWithIndex *work;
 
@@ -420,8 +421,8 @@ static int perm_argsort(int *perm, int const *types, double const *values,
 
 /* Permute an array. */
 /* data_out and data_in MUST NOT ALIAS. */
-static void permute(void *data_out, void const *data_in, int const *perm,
-                    int value_size, int n) {
+static void permute(void *restrict data_out, void const *restrict data_in,
+                    int const *restrict perm, int value_size, int n) {
     int i;
     void const *read;
     void *write;
@@ -436,13 +437,14 @@ static void permute(void *data_out, void const *data_in, int const *perm,
 /* ***************************************** */
 /*             OverlapChecker                */
 
-static void permute_int(int *data_out, int const *data_in, int const *perm,
-                        int const n) {
+static void permute_int(int *restrict data_out, int const *restrict data_in,
+                        int const *restrict perm, int const n) {
     permute(data_out, data_in, perm, sizeof(int), n);
 }
 
-static void permute_double_3(double (*data_out)[3], double const (*data_in)[3],
-                             int const *perm, int const n) {
+static void permute_double_3(double (*restrict data_out)[3],
+                             double const (*restrict data_in)[3],
+                             int const *restrict perm, int const n) {
     permute(data_out, data_in, perm, sizeof(double[3]), n);
 }
 
@@ -510,8 +512,9 @@ static OverlapChecker *overlap_checker_alloc(int size) {
 }
 
 static int argsort_by_lattice_point_distance(
-    int *perm, double const lattice[3][3], double const (*positions)[3],
-    int const *types, double *distance_temp, void *argsort_work,
+    int *restrict perm, double const lattice[restrict 3][3],
+    double const (*restrict positions)[3], int const *restrict types,
+    double *restrict distance_temp, void *restrict argsort_work,
     int const size) {
     double diff[3];
     int i, k;
@@ -586,9 +589,11 @@ static int check_possible_overlap(OverlapChecker *checker,
 /* between pos_original and pos_rotated is small. */
 /* -1: Error.  0: False.  1:  True. */
 static int check_total_overlap_for_sorted(
-    double const lattice[3][3], double const (*pos_original)[3],
-    double const (*pos_rotated)[3], int const types_original[],
-    int const types_rotated[], int const num_pos, double const symprec) {
+    double const lattice[restrict 3][3],
+    double const (*restrict pos_original)[3],
+    double const (*restrict pos_rotated)[3], int const types_original[restrict],
+    int const types_rotated[restrict], int const num_pos,
+    double const symprec) {
     int *found;
     int i, i_orig, i_rot;
     int search_start;
@@ -648,10 +653,11 @@ static int check_total_overlap_for_sorted(
 /* between pos_original and pos_rotated is small. */
 /* -1: Error.  0: False.  1:  True. */
 static int check_layer_total_overlap_for_sorted(
-    double const lattice[3][3], double const (*pos_original)[3],
-    double const (*pos_rotated)[3], int const types_original[],
-    int const types_rotated[], int const num_pos, int const periodic_axes[3],
-    double const symprec) {
+    double const lattice[restrict 3][3],
+    double const (*restrict pos_original)[3],
+    double const (*restrict pos_rotated)[3], int const types_original[restrict],
+    int const types_rotated[restrict], int const num_pos,
+    int const periodic_axes[restrict 3], double const symprec) {
     int *found;
     int i, i_orig, i_rot;
     int search_start;
