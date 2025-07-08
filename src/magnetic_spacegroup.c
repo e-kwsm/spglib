@@ -37,8 +37,8 @@ static MagneticSymmetry *get_representative(
     MagneticSymmetry const *magnetic_symmetry);
 static MagneticSymmetry *get_changed_magnetic_symmetry(
     double const tmat[3][3], double const shift[3],
-    MagneticSymmetry const *representative, Symmetry const *sym_xsg,
-    MagneticSymmetry const *magnetic_symmetry, double const symprec);
+    MagneticSymmetry const *restrict representative, Symmetry const *sym_xsg,
+    MagneticSymmetry const *restrict magnetic_symmetry, double const symprec);
 static VecDBL *get_changed_pure_translations(double const tmat[3][3],
                                              VecDBL const *pure_trans,
                                              double const symprec);
@@ -51,8 +51,10 @@ static MagneticSymmetry *get_distinct_changed_magnetic_symmetry(
     MagneticSymmetry const *sym_msg);
 static int is_equal(MagneticSymmetry const *sym1, MagneticSymmetry const *sym2,
                     double const symprec);
-void get_rigid_rotation(double rigid_rot[3][3], double const lattice[3][3],
-                        double const tmat[3][3], Spacegroup const *ref_sg);
+void get_rigid_rotation(double rigid_rot[restrict 3][3],
+                        double const lattice[restrict 3][3],
+                        double const tmat[restrict 3][3],
+                        Spacegroup const *ref_sg);
 
 /******************************************************************************/
 
@@ -694,8 +696,9 @@ static MagneticSymmetry *get_representative(
 /* Be careful the correspondence: tmat = spacegroup->bravais_lattice^-1 */
 static MagneticSymmetry *get_changed_magnetic_symmetry(
     double const tmat[3][3], double const shift[3],
-    MagneticSymmetry const *representatives, Symmetry const *sym_xsg,
-    MagneticSymmetry const *magnetic_symmetry, double const symprec) {
+    MagneticSymmetry const *restrict representatives,
+    Symmetry const *restrict sym_xsg,
+    MagneticSymmetry const *restrict magnetic_symmetry, double const symprec) {
     int size, num_factors, num_sym, i, j, k;
     VecDBL *pure_trans, *changed_pure_trans;
     MagneticSymmetry *changed, *factors, *changed_factors,
@@ -1005,8 +1008,10 @@ static int is_equal(MagneticSymmetry const *sym1, MagneticSymmetry const *sym2,
     return 1;
 }
 
-void get_rigid_rotation(double rigid_rot[3][3], double const lattice[3][3],
-                        double const tmat[3][3], Spacegroup const *ref_sg) {
+void get_rigid_rotation(double rigid_rot[restrict 3][3],
+                        double const lattice[restrict 3][3],
+                        double const tmat[restrict 3][3],
+                        Spacegroup const *ref_sg) {
     double ideal_latt[3][3], inv_ideal_latt[3][3], inv_latt[3][3];
     double tmat_bravais[3][3], inv_tmat_bravais[3][3];
 
