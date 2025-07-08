@@ -8982,10 +8982,11 @@ static void unpack_generators(int rot[3][3][3], int const generators[3][9]) {
     }
 }
 
-static int is_hall_symbol(double shift[3], int const hall_number,
-                          double const primitive_lattice[3][3],
+static int is_hall_symbol(double shift[restrict 3], int const hall_number,
+                          double const primitive_lattice[restrict 3][3],
                           Symmetry const *symmetry, Centering const centering,
-                          int const generators[3][9], double const VSpU[3][9],
+                          int const generators[3][9],
+                          double const VSpU[restrict 3][9],
                           double const symprec) {
     int is_origin_shift;
     int operation_index[2];
@@ -9066,9 +9067,9 @@ not_found:
     return 0;
 }
 
-static void transform_translation(double trans_reduced[3],
+static void transform_translation(double trans_reduced[restrict 3],
                                   Centering const centering,
-                                  double const trans[3]) {
+                                  double const trans[restrict 3]) {
     /* This is done in get_origin_shift
     int i;
     */
@@ -9141,10 +9142,11 @@ static void transform_rotation(double rot_reduced[3][3],
     }
 }
 
-static int get_origin_shift(double shift[3], int const hall_number,
-                            int const rot[3][3][3], double const trans[3][3],
+static int get_origin_shift(double shift[restrict 3], int const hall_number,
+                            int const rot[3][3][3],
+                            double const trans[restrict 3][3],
                             Centering const centering,
-                            double const VSpU[3][9]) {
+                            double const VSpU[restrict 3][9]) {
     int i, j;
     int operation_index[2];
     double dw[9], tmp_dw[3];
@@ -9188,8 +9190,8 @@ not_found:
     return 0;
 }
 
-static int set_dw(double dw[3], int const operation_index[2],
-                  int const rot[3][3], double const trans[3],
+static int set_dw(double dw[restrict 3], int const operation_index[restrict 2],
+                  int const rot[restrict 3][3], double const trans[restrict 3],
                   Centering const centering) {
     int i, j;
     int rot_db[3][3];
