@@ -20,11 +20,9 @@ typedef struct {
     double rotation[3][3];
 } ExactStructure;
 
-ExactStructure *ref_get_exact_structure_and_symmetry(Spacegroup *spacegroup,
-                                                     Cell const *primitive,
-                                                     Cell const *cell,
-                                                     int const *mapping_table,
-                                                     double const symprec);
+ExactStructure *ref_get_exact_structure_and_symmetry(
+    Spacegroup *spacegroup, Cell const *restrict primitive,
+    Cell const *restrict cell, int const *mapping_table, double const symprec);
 Symmetry *ref_get_primitive_symmetry(double const t_mat[3][3],
                                      Symmetry const *sym);
 void ref_free_exact_structure(ExactStructure *exstr);
