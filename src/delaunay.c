@@ -71,7 +71,8 @@ int del_layer_delaunay_reduce(double min_lattice[3][3],
 /* Delaunay reduction */
 /* Reference can be found in International table A. */
 /* Return 0 if failed */
-static int delaunay_reduce(double red_lattice[3][3], double const lattice[3][3],
+static int delaunay_reduce(double red_lattice[restrict 3][3],
+                           double const lattice[restrict 3][3],
                            int const aperiodic_axis, double const symprec) {
     int succeeded, lattice_rank;
     int tmp_mat_int[3][3];
@@ -295,7 +296,8 @@ static int delaunay_reduce_basis(double basis[4][3], int const lattice_rank,
 // @brief Get extended basis for three-dimensional Delaunay reduction.
 //        If exists, `aperiodic_axis` is temporarily moved to b3 (`basis[2]`).
 // @return lattice_rank Rank of `lattice`
-static int get_extended_basis(double basis[4][3], double const lattice[3][3],
+static int get_extended_basis(double basis[restrict 4][3],
+                              double const lattice[restrict 3][3],
                               int const aperiodic_axis) {
     int i, j, lattice_rank;
 
@@ -504,8 +506,8 @@ static void get_delaunay_shortest_vectors_2D(double basis[3][3],
     }
 }
 
-static void get_extended_basis_2D(double basis[3][3],
-                                  double const lattice[3][2]) {
+static void get_extended_basis_2D(double basis[restrict 3][3],
+                                  double const lattice[restrict 3][2]) {
     int i, j;
 
     for (i = 0; i < 2; i++) {
