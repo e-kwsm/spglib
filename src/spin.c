@@ -32,17 +32,17 @@ static int get_operation_sign_on_vector(int const j, int const k,
                                         int const with_time_reversal,
                                         int const is_axial,
                                         double const mag_symprec);
-static void apply_symmetry_to_position(double pos_dst[3],
-                                       double const pos_src[3],
+static void apply_symmetry_to_position(double pos_dst[restrict 3],
+                                       double const pos_src[restrict 3],
                                        int const rot[3][3],
-                                       double const trans[3]);
+                                       double const trans[restrict 3]);
 static double apply_symmetry_to_site_scalar(double const src,
                                             double const rot_cart[3][3],
                                             int const timerev,
                                             int const with_time_reversal,
                                             int const is_axial);
-static void apply_symmetry_to_site_vector(double dst[3], int const idx,
-                                          double const *tensors,
+static void apply_symmetry_to_site_vector(double dst[restrict 3], int const idx,
+                                          double const *restrict tensors,
                                           double const rot_cart[3][3],
                                           int const timerev,
                                           int const with_time_reversal,

@@ -25,22 +25,23 @@ static VecDBL *get_exact_positions(int *equiv_atoms, Cell const *conv_prim,
 static void set_exact_location(double position[3], Symmetry const *conv_sym,
                                double const bravais_lattice[3][3],
                                double const symprec);
-static int set_equivalent_atom(VecDBL *positions, int *equiv_atoms, int const i,
-                               int const num_indep_atoms,
-                               int const *indep_atoms, Cell const *conv_prim,
-                               Symmetry const *conv_sym, double const symprec);
+static int set_equivalent_atom(VecDBL *positions, int *restrict equiv_atoms,
+                               int const i, int const num_indep_atoms,
+                               int const *restrict indep_atoms,
+                               Cell const *conv_prim, Symmetry const *conv_sym,
+                               double const symprec);
 static void set_layer_exact_location(double position[3],
                                      Symmetry const *conv_sym,
                                      double const bravais_lattice[3][3],
                                      double const symprec);
-static int set_layer_equivalent_atom(VecDBL *positions, int *equiv_atoms,
-                                     int const i, int const num_indep_atoms,
-                                     int const *indep_atoms,
-                                     Cell const *conv_prim,
-                                     Symmetry const *conv_sym,
-                                     double const symprec);
-static int set_Wyckoffs_labels(int *wyckoffs, char (*site_symmetry_symbols)[7],
-                               VecDBL const *positions, int const *equiv_atoms,
+static int set_layer_equivalent_atom(
+    VecDBL *positions, int *restrict equiv_atoms, int const i,
+    int const num_indep_atoms, int const *restrict indep_atoms,
+    Cell const *conv_prim, Symmetry const *conv_sym, double const symprec);
+static int set_Wyckoffs_labels(int *restrict wyckoffs,
+                               char (*site_symmetry_symbols)[7],
+                               VecDBL const *positions,
+                               int const *restrict equiv_atoms,
                                Cell const *conv_prim, Symmetry const *conv_sym,
                                int const num_pure_trans, int const hall_number,
                                double const symprec);
